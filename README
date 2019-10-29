@@ -1,0 +1,13 @@
+README
+Hackathon: YHack2019
+By: Arnav Kothari, Aryan Pandey, and Steven Oh
+
+Our program collects data from websites about customer's experience with flights and uses natural language processing to determine their sentiment towards the airways they used. 
+
+To run our program use: python sentiment_scraper.py
+Make sure to have the virtual environment activated and the connection to the api_key.JSON file.
+
+
+Sources:
+We used the python BeautifulSoup package
+Google's Natural Language Processing API
