@@ -41,21 +41,26 @@ def printCAffairs(url):
     with open(outfile,'w', encoding = "utf8") as file:
         temp = 0
         for p in soup.select('p'):
-            if (temp%2 == 0):
+            # write the even paragraphs to output
+            if (temp % 2 == 0):
                 str = p.text + '\n'
                 file.write(str)
-                # print(str)
+       
             temp = temp + 1
 
 def printKayak(url):
+    # response gets url
     response = requests.get(url)
+  
+    # Soup holds the parsed HTML data
     soup = BeautifulSoup(response.text, 'html.parser')
-
+    # writes to a file and encodes the text for efficency
     with open(outfile,'a', encoding = "utf8") as file:
+        # finds and outputs all the paragraphs in the file
         for p in soup.find_all('p'):
             str = p.text + '\n'
             file.write(str)
-            # print(str)
+     
 
 
 # url = 'https://www.tripadvisor.com/Hotel_Review-g1933359-d307591-Reviews-Amandari-Kedewatan_Ubud_Gianyar_Regency_Bali.html'
@@ -87,30 +92,28 @@ client = language.LanguageServiceClient()
 # The text to analyze
 f = open(outfile, "r", encoding='utf8')
 text = f.read()
-
 document = types.Document(
     content=text,
     type=enums.Document.Type.PLAIN_TEXT)
-# Detects the sentiment of the text
 
+# Detects the sentiment of the text
 response = client.analyze_sentiment(document)
-print("\n")
+
 
 total = response.document_sentiment.score
 for sentence in response.sentences:
     if (flags == "y"):
         if (sentence.sentiment.score > 0.8 or sentence.sentiment.score < -0.8):
             print("Sentence text: {}".format(sentence.text.content))
-            print("Score: {0:.1f}".format(float(sentence.sentiment.score)))
-            print("Magnitude: {0:.1f}".format(float(sentence.sentiment.magnitude)))
+            print("Score: {}".format(float(sentence.sentiment.score)))
+            print("Magnitude: {}".format(float(sentence.sentiment.magnitude)))
             print("\n")
     else:
         print("Sentence text: {}".format(sentence.text.content))
-        print("Score: {0:.1f}".format(float(sentence.sentiment.score)))
-        print("Magnitude: {0:.1f}".format(float(sentence.sentiment.magnitude)))
+        print("Score: {}".format(float(sentence.sentiment.score)))
+        print("Magnitude: {}".format(float(sentence.sentiment.magnitude)))
         print("\n")
 
-print("\n \n")
 print('Overall Sentiment: {0:.1f}'.format(float(total)))
 f.close()
 
